@@ -12,8 +12,8 @@ function Header() {
         </Link>
       </div>
       <div className={styles['header-btn']}>
-        <Link to="/signin" className={styles['header-btn_signin']}>Sign In</Link>
-        <Link to="/signup" className={styles['header-btn_signup']}>Sign Up</Link>
+        <Link to="/sign-in" className={styles['header-btn_signin']}>Sign In</Link>
+        <Link to="/sign-up" className={styles['header-btn_signup']}>Sign Up</Link>
       </div>
     </header>
   )

@@ -1,0 +1,33 @@
+@import '../../sass/mixins.scss';
+
+.form-wrap {
+  @include form;
+}
+
+.form-sign-in {
+  @include form-sign;
+
+  &-title {
+    @include form-title;
+  }
+
+  &-label {
+    @include form-label;
+  }
+
+  &-input {
+    @include form-input;
+  }
+
+  &-button {
+    @include form-button;
+  }
+
+  &-span {
+    @include form-span;
+  }
+
+  &-link {
+    @include form-link;
+  }
+}

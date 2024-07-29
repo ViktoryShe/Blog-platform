@@ -5,7 +5,7 @@
   }
   
   .app-card--alone {
-    box-shadow: 0px 4px 12px 0px #00000026;
+    box-shadow: 0px 4px 12px 0px var(--tag);
   }
   
   .card-tag-list {
@@ -15,9 +15,9 @@
     list-style: none;
     padding: 0px;
   }
-  
+
   .card-tag-item {
-    border: 1px solid #000000;
+    border: 1px solid var(--text);
     border-radius: 2px;
     padding: 2px 5px;
     font-size: 12px;
@@ -52,10 +52,10 @@
       gap: 12px;
   
       &--edit {
-        border: 1px solid #52c41a;
+        border: 1px solid var(--btn-signup);
         border-radius: 5px;
         padding: 4px 15px;
-        color: #52c41a;
+        color: var(--btn-signup);
         font-size: 14px;
         font-weight: 400;
         line-height: 22px;
@@ -86,7 +86,7 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 28px;
-    color: rgb(24, 144, 255);
+    color: var(--button);
   }
   
   .like {

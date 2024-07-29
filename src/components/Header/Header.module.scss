@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   height: 80px;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--panel-background);
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
@@ -29,11 +29,11 @@
     gap: 1rem;
 
     &_signin {
-      color: #007bff;
+      color: var(--button);
+      border: 1px solid var(--button);
       font-size: 18px;
       font-weight: 400;
       padding: 10px 20px 10px 20px;
-      border: 1px solid #007bff;
       border-radius: 5px;
       text-decoration: none;
 
@@ -45,8 +45,8 @@
     &_signup {
       font-size: 18px;
       font-weight: 400;
-      border: 1px solid #52C41A;
-      color: #52C41A;
+      border: 1px solid var(--btn-signup);
+      color: var(--btn-signup);
       padding: 10px 20px 10px 20px;
       border-radius: 5px;
       text-decoration: none;
