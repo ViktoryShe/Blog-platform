@@ -13,7 +13,7 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     list-style: none;
-    padding: 0;
+    padding: 0px;
   }
   
   .card-tag-item {
@@ -31,7 +31,7 @@
   }
   
   .card-article {
-    padding-top: 4px;
+    padding-top: 10px;
     display: flex;
     justify-content: space-between;
     width: 70%;

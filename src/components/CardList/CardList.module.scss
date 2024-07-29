@@ -6,19 +6,8 @@
   list-style-type: none;
 }
 
-.cardlist-item {
-  background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .pagination {
   display: flex;
   justify-content: center;
   padding: 16px 0;
-  .ant-pagination-item-active {
-    background-color: #1890ff;
-    border-color: #1890ff;
-  }
 }

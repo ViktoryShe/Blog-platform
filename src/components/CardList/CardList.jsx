@@ -11,20 +11,20 @@ import classes from './CardList.module.scss'
 export default function CardList() {
   const dispatch = useAppDispatch()
 
-  const { articles = [], articlesCount = 0, loading = false } = useAppSelector((state) => state.fetch || {})
+  const { articles, articlesCount, loading } = useAppSelector((state) => state.fetch)
 
   useEffect(() => {
     dispatch(fetchCards({ offset: 0 }))
   }, [dispatch])
 
   const cardsItem = articles.map((article) => (
-    <li key={uniqid()} className={classes['cardlist-item']}>
-      <CardHeader article={article} />
+    <li key={uniqid.time('cards:')}>
+      <CardHeader isAlone article={article} />
     </li>
   ))
 
   return (
-    <div>
+    <>
       {loading ? <Spin /> : <ul className={classes.cardlist}>{cardsItem}</ul>}
       <ConfigProvider
         theme={{
@@ -48,6 +48,6 @@ export default function CardList() {
           }}
         />
       </ConfigProvider>
-    </div>
+    </>
   )
 }

@@ -35,7 +35,7 @@ export const fetchCard = createAsyncThunk(
         throw new Error(`Failed to fetch slug: ${response.status}`)
       }
       const data = await response.json()
-      return data
+      return data.article
     } catch (error) {
       return rejectWithValue(`Error: ${error.message}`)
     }
