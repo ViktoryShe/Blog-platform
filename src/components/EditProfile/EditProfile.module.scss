@@ -4,7 +4,7 @@
   @include form;
 }
 
-.form-sign-in {
+.form-edit-profile {
   @include form-sign;
 
   &-inputs {
@@ -21,9 +21,6 @@
 
   &-input {
     @include form-input;
-    &--warning {
-      @include form-input--warning;
-    }
   }
 
   &-button {

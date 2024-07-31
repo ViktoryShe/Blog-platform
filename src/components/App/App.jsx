@@ -6,7 +6,7 @@ import CardList from '../CardList/CardList'
 import Header from '../Header/Header'
 import SignIn from '../SignIn/SignIn'
 import SignUp from '../SignUp/SignUp'
-// import EditProfile from '../EditProfile/EditProfile'
+import EditProfile from '../EditProfile/EditProfile'
 // import ArticleForm from '../ArticleForm/ArticleForm'
 
 import classes from './App.module.scss'
@@ -21,6 +21,7 @@ export default function App() {
             <Route path="/articles/:slug" element={<Card />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/profile" element={<EditProfile />} />
             <Route path="/" element={<CardList />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

@@ -10,11 +10,18 @@
   &-title {
     @include form-title;
   }
+
+  &-inputs {
+    @include form-inputs;
+  }
   &-label {
     @include form-label;
   }
   &-input {
     @include form-input;
+    &--warning {
+      @include form-input--warning;
+    }
   }
   &-button {
     @include form-button;
@@ -26,7 +33,15 @@
     @include form-link;
   }
 
+  &-error {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #f5222d;
+  }
+
   &-checkbox {
+    padding-bottom: 20px;
     display: flex;
     align-items: baseline;
     gap: 8px;
