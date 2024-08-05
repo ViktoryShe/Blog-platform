@@ -14,11 +14,13 @@ export default function Card() {
   const dispatch = useAppDispatch()
   const { currentArticle, loading } = useAppSelector((state) => state.fetch)
 
+  const token = localStorage.getItem('token')
+
   useEffect(() => {
     if (slug) {
-      dispatch(fetchCard({ slug }))
+      dispatch(fetchCard({ slug, token: token || null }))
     }
-  }, [dispatch, slug])
+  }, [dispatch, slug, token])
 
   function renderArticle() {
     if (!currentArticle) {
