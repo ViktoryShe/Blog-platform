@@ -12,6 +12,7 @@ function Header() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // console.log('Current User:', currentUser)
     const token = localStorage.getItem('token')
     if (!currentUser && token) {
       dispatch(fetchUser(token))

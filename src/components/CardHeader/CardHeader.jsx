@@ -9,15 +9,18 @@ import { Button, Popconfirm } from 'antd'
 import like from '../../assets/like.svg'
 import likeFill from '../../assets/likeFill.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
+import { selectCurrentUser } from '../../store/selectors'
 import { fetchDeleteArticle, fetchFavoriteArticle, fetchUnfavoriteArticle } from '../../store/fetchSlice'
 
 import classes from './CardHeader.module.scss'
 
 export default function CardHeader({ article, isAlone = true }) {
-  const { title, author, createdAt, description, tagList, favorited, favoritesCount } = article
-  const { currentUser, isDeleteSuccess, loading } = useAppSelector(
-    (state) => state.fetchReducer || {}
-  )
+  const {
+    title, author, createdAt, description, tagList, favorited, favoritesCount,
+  } = article
+  const currentUser = useAppSelector(selectCurrentUser)
+  const isDeleteSuccess = useAppSelector((state) => state.fetchReducer?.isDeleteSuccess)
+  const loading = useAppSelector((state) => state.fetchReducer?.loading)
   const dispatch = useAppDispatch()
   const token = localStorage.getItem('token')
   const formatDate = format(parseISO(createdAt), 'MMMM dd, yyyy', { locale: enGB })
@@ -28,15 +31,6 @@ export default function CardHeader({ article, isAlone = true }) {
       navigate('/')
     }
   }, [isDeleteSuccess, loading, navigate])
-
-  const currentUsername = currentUser ? currentUser.username : null
-
-  console.log('Debug Info:', {
-    token,
-    currentUsername,
-    articleAuthor: author.username,
-    isAlone,
-  })
 
   const headerClass = classNames({
     [classes['app-card']]: true,
@@ -99,7 +93,7 @@ export default function CardHeader({ article, isAlone = true }) {
       <div className={classes['card-article']}>
         <p className={classes['card-article-description']}>{description}</p>
       </div>
-      {token && currentUsername === author.username && !isAlone && (
+      {token && currentUser && currentUser.username === author.username && !isAlone && (
         <div className={classes['card-article-change']}>
           <Popconfirm
             title="Are you sure to delete this article?"

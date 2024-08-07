@@ -326,9 +326,9 @@ const fetchSlice = createSlice({
         localStorage.setItem('token', action.payload.token)
         state.loading = false
       })
-      .addCase(fetchUserEdit.pending, (state) => {
-        state.loading = true
-        state.error = ''
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload || 'Failed to fetch user'
       })
       .addCase(fetchUserEdit.fulfilled, (state, action) => {
         state.currentUser = action.payload
@@ -364,7 +364,7 @@ const fetchSlice = createSlice({
       })
       .addCase(fetchFavoriteArticle.fulfilled, (state, action) => {
         state.articles[
-          state.articles?.findIndex((article) => article.slug === action.payload.slug)
+          state.articles.findIndex((article) => article.slug === action.payload.slug)
         ] = action.payload
         state.currentArticle = action.payload
       })
@@ -373,7 +373,7 @@ const fetchSlice = createSlice({
       })
       .addCase(fetchUnfavoriteArticle.fulfilled, (state, action) => {
         state.articles[
-          state.articles?.findIndex((article) => article.slug === action.payload.slug)
+          state.articles.findIndex((article) => article.slug === action.payload.slug)
         ] = action.payload
         state.currentArticle = action.payload
       })
