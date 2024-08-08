@@ -8,6 +8,7 @@ import SignIn from '../SignIn/SignIn'
 import SignUp from '../SignUp/SignUp'
 import EditProfile from '../EditProfile/EditProfile'
 import ArticleForm from '../ArticleForm/ArticleForm'
+import { HOME, SIGN_IN, SIGN_UP, PROFILE, NEW_ARTICLE, EDIT_ARTICLE, ARTICLE_DETAIL, NOT_FOUND } from '../../routes/routes'
 
 import classes from './App.module.scss'
 
@@ -18,14 +19,14 @@ export default function App() {
         <Header />
         <main className={classes['app-main']}>
           <Routes>
-            <Route path="/articles/:slug" element={<Card />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/profile" element={<EditProfile />} />
-            <Route path="/new-article" element={<ArticleForm />} />
-            <Route path="/articles/:slug/edit" element={<ArticleForm />} />
-            <Route path="/" element={<CardList />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path={ARTICLE_DETAIL} element={<Card />} />
+            <Route path={SIGN_IN} element={<SignIn />} />
+            <Route path={SIGN_UP} element={<SignUp />} />
+            <Route path={PROFILE} element={<EditProfile />} />
+            <Route path={NEW_ARTICLE} element={<ArticleForm />} />
+            <Route path={EDIT_ARTICLE} element={<ArticleForm />} />
+            <Route path={HOME} element={<CardList />} />
+            <Route path={NOT_FOUND} element={<Navigate to={HOME} />} />
           </Routes>
         </main>
       </div>

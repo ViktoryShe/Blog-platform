@@ -23,15 +23,19 @@ export default function CardList() {
     }
   }, [dispatch])
 
-  const cardsItem = articles.map((article) => (
-    <li key={uniqid.time('cards:')}>
-      <CardHeader isAlone article={article} />
-    </li>
-  ))
-
   return (
     <>
-      {loading ? <Spin /> : <ul className={classes.cardlist}>{cardsItem}</ul>}
+      {loading ? (
+        <Spin />
+      ) : (
+        <ul className={classes.cardlist}>
+          {articles.map((article) => (
+            <li key={uniqid.time('cards:')}>
+              <CardHeader isAlone article={article} />
+            </li>
+          ))}
+        </ul>
+      )}
       <ConfigProvider
         theme={{
           token: {

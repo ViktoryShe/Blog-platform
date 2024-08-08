@@ -37,14 +37,6 @@ export default function CardHeader({ article, isAlone = true }) {
     [classes['app-card--alone']]: isAlone,
   })
 
-  const tagsItem = tagList
-    .filter((tag) => tag?.match(/\S/))
-    .map((tag) => (
-      <li key={uniqid.time('tag:')} className={classes['card-tag-item']}>
-        {tag}
-      </li>
-    ))
-
   const handleLike = () => {
     if (token) {
       if (!favorited) {
@@ -84,7 +76,13 @@ export default function CardHeader({ article, isAlone = true }) {
         </div>
         <ul className={classes['card-tag-list']}>
           {tagList.length > 0 ? (
-            tagsItem
+            tagList
+              .filter((tag) => tag?.match(/\S/))
+              .map((tag) => (
+                <li key={uniqid.time('tag:')} className={classes['card-tag-item']}>
+                  {tag}
+                </li>
+              ))
           ) : (
             <div className={classes['card-tag-not']}>No tags..</div>
           )}

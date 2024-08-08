@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,13 +11,24 @@ function Header() {
   const currentUser = useSelector((state) => state.fetch.currentUser)
   const dispatch = useDispatch()
 
+  const [userImage, setUserImage] = useState(user)
+
   useEffect(() => {
-    // console.log('Current User:', currentUser)
     const token = localStorage.getItem('token')
     if (!currentUser && token) {
       dispatch(fetchUser(token))
     }
   }, [currentUser, dispatch])
+
+  useEffect(() => {
+    if (currentUser?.image) {
+      setUserImage(currentUser.image)
+    }
+  }, [currentUser?.image])
+
+  const handleImageError = () => {
+    setUserImage(user)
+  }
 
   return (
     <header className={styles.header}>
@@ -41,8 +52,9 @@ function Header() {
             <div className={styles['header-user-info']}>
               <h2 className={styles['header-user-info_title']}>{currentUser.username}</h2>
               <img
-                src={currentUser.image ? currentUser.image : user}
+                src={userImage}
                 alt="UserImg"
+                onError={handleImageError}
                 className={styles['header-user-img']}
               />
             </div>

@@ -42,19 +42,6 @@ export default function SignUp() {
     }
   }, [isSubmitting, loading])
 
-  function renderErrors(field) {
-    if (typeof error === 'object' && error[field]) {
-      return <span className={classes['form-sign-up-error']}>{`${field} уже существует`}</span>
-    }
-    return null
-  }
-
-  function inputClasses(input) {
-    return classNames(classes['form-sign-up-input'], {
-      [classes['form-sign-up-input--warning']]: errors[input],
-    })
-  }
-
   return token ? (
     <Navigate to="/" />
   ) : (
@@ -82,14 +69,18 @@ export default function SignUp() {
                 onChange: () => dispatch(clearError('username')),
               })}
               placeholder="Username"
-              className={inputClasses('username')}
+              className={classNames(classes['form-sign-up-input'], {
+                [classes['form-sign-up-input--warning']]: errors.username,
+              })}
               type="text"
             />
           </label>
           {errors.username && (
             <span className={classes['form-sign-up-error']}>{errors.username.message}</span>
           )}
-          {renderErrors('username')}
+          {error?.username && (
+            <span className={classes['form-sign-up-error']}>Username уже существует</span>
+          )}
 
           <label className={classes['form-sign-up-label']}>
             Email address
@@ -103,14 +94,18 @@ export default function SignUp() {
                 onChange: () => dispatch(clearError('email')),
               })}
               placeholder="Email address"
-              className={inputClasses('email')}
+              className={classNames(classes['form-sign-up-input'], {
+                [classes['form-sign-up-input--warning']]: errors.email,
+              })}
               type="email"
             />
           </label>
           {errors.email && (
             <span className={classes['form-sign-up-error']}>{errors.email.message}</span>
           )}
-          {renderErrors('email')}
+          {error?.email && (
+            <span className={classes['form-sign-up-error']}>Email уже существует</span>
+          )}
 
           <label className={classes['form-sign-up-label']}>
             Password
@@ -131,7 +126,9 @@ export default function SignUp() {
                 },
               })}
               placeholder="Password"
-              className={inputClasses('password')}
+              className={classNames(classes['form-sign-up-input'], {
+                [classes['form-sign-up-input--warning']]: errors.password,
+              })}
               type="password"
             />
           </label>
@@ -144,42 +141,37 @@ export default function SignUp() {
             <input
               {...register('repeatPassword', {
                 required: 'Поле обязательно к заполнению',
-                validate: (value) => value === watch('password') || 'Пароли не совпадают',
+                validate: (value) => value === watch('password') || 'The passwords do not match',
               })}
-              placeholder="Repeat Password"
-              className={inputClasses('repeatPassword')}
+              placeholder="Password"
+              className={classNames(classes['form-sign-up-input'], {
+                [classes['form-sign-up-input--warning']]: errors.repeatPassword,
+              })}
               type="password"
             />
           </label>
           {errors.repeatPassword && (
             <span className={classes['form-sign-up-error']}>{errors.repeatPassword.message}</span>
           )}
-        </fieldset>
 
-        <label className={classes['form-sign-up-checkbox']}>
-          <input
-            {...register('terms', {
-              required: 'Поле обязательно к заполнению',
-            })}
-            className={classes['form-sign-up-checkbox-input']}
-            type="checkbox"
-          />
-          <span className={classes['form-sign-up-checkbox-text']}>
+          <label className={classes['form-sign-up-label-checkbox']}>
+            <input
+              {...register('agreement', {
+                required: 'Подтвердите согласие',
+              })}
+              type="checkbox"
+            />
             I agree to the processing of my personal information
-            {errors.terms && (
-              <span className={classes['form-sign-up-error']}>{errors.terms.message}</span>
-            )}
-          </span>
-        </label>
-
+          </label>
+          {errors.agreement && (
+            <span className={classes['form-sign-up-error']}>{errors.agreement.message}</span>
+          )}
+        </fieldset>
         <button className={classes['form-sign-up-button']} type="submit" disabled={!isValid}>
           Create
         </button>
-        <span className={classes['form-sign-up-span']}>
-          Already have an account?
-          <Link className={classes['form-sign-up-link']} to="/sign-in">
-            Sign In.
-          </Link>
+        <span className={classes['form-sign-up-footer']}>
+          Already have an account? <Link to="/sign-in">Sign In</Link>.
         </span>
       </form>
     </div>

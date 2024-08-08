@@ -22,20 +22,20 @@ export default function Card() {
     }
   }, [dispatch, slug, token])
 
-  function renderArticle() {
-    if (!currentArticle) {
-      return <span>Not article</span>
-    }
-    return (
-      <article className={styles.article}>
-        <CardHeader isAlone={false} article={currentArticle} />
-        
-        <main className={styles.article_content}>
-          <Markdown value={currentArticle.body} />
-        </main>
-      </article>
-    )
+  if (loading) {
+    return <Spin />
   }
 
-  return loading ? <Spin /> : <>{renderArticle()}</>
+  if (!currentArticle) {
+    return <span>Not article</span>
+  }
+
+  return (
+    <article className={styles.article}>
+      <CardHeader isAlone={false} article={currentArticle} />
+      <main className={styles.article_content}>
+        <Markdown value={currentArticle.body} />
+      </main>
+    </article>
+  )
 }

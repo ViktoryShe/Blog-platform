@@ -1,0 +1,8 @@
+export const HOME = '/'
+export const SIGN_IN = '/sign-in'
+export const SIGN_UP = '/sign-up'
+export const PROFILE = '/profile'
+export const NEW_ARTICLE = '/new-article'
+export const EDIT_ARTICLE = '/articles/:slug/edit'
+export const ARTICLE_DETAIL = '/articles/:slug'
+export const NOT_FOUND = '*'

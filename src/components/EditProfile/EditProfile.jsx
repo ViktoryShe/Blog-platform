@@ -47,17 +47,6 @@ export default function EditProfile() {
     }
   }, [isSubmitting, loading])
 
-  function renderErrors(field) {
-    if (typeof error === 'object') {
-      if (error[field]) {
-        return (
-          <span className={classes['form-edit-profile-error']}>{`${field} уже существует`}</span>
-        )
-      }
-    }
-    return null
-  }
-
   return !token ? (
     <Navigate to="/" />
   ) : (
@@ -94,7 +83,9 @@ export default function EditProfile() {
               {errors.username.message}
             </span>
           )}
-          {renderErrors('username')}
+          {error?.username && (
+            <span className={classes['form-edit-profile-error']}>Username уже существует</span>
+          )}
 
           <label className={classes['form-edit-profile-label']}>
             Email address
@@ -117,7 +108,9 @@ export default function EditProfile() {
               {errors.email.message}
             </span>
           )}
-          {renderErrors('email')}
+          {error?.email && (
+            <span className={classes['form-edit-profile-error']}>Email уже существует</span>
+          )}
 
           <label className={classes['form-edit-profile-label']}>
             New Password
