@@ -11,10 +11,8 @@ export default function EditProfile() {
   const dispatch = useAppDispatch()
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
-
   const fetchState = useAppSelector((state) => state.fetch)
   const { loading, error, currentUser } = fetchState || {}
-
   const {
     register,
     formState: { errors, submitCount, isSubmitting },

@@ -1,50 +1,56 @@
-import React, { useEffect } from 'react'
-import { Link, useNavigate, Navigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import classNames from 'classnames'
 
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
+import { useAppDispatch } from '../../hooks/hooks'
 import { fetchCreateUser, clearError } from '../../store/fetchSlice'
 
 import classes from './SignUp.module.scss'
 
 export default function SignUp() {
+  const [submitError, setSubmitError] = useState('')
   const dispatch = useAppDispatch()
   const token = localStorage.getItem('token')
-  const { loading, error } = useAppSelector((state) => state.fetchReducer) || {}
   const navigate = useNavigate()
-  
   const {
     register,
-    formState: { errors, submitCount, isSubmitting },
+    formState: { errors, isValid, isSubmitting },
     handleSubmit,
     watch,
-    formState: { isValid },
   } = useForm({
     mode: 'onBlur',
   })
 
-  const onSubmit = (data) => {
-    dispatch(
-      fetchCreateUser({
-        user: {
-          username: data.username,
-          email: data.email,
-          password: data.password,
-        },
-      })
-    )
+  const onSubmit = async (data) => {
+    try {
+      const resultAction = await dispatch(
+        fetchCreateUser({
+          user: {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+          },
+        })
+      )
+
+      if (fetchCreateUser.fulfilled.match(resultAction)) {
+        navigate('/')
+      } else {
+        setSubmitError('Username или email уже существует. Попробуйте снова.')
+      }
+    } catch (err) {
+      setSubmitError('Please try again.')
+    }
   }
 
   useEffect(() => {
-    if (submitCount && !error && !loading && !isSubmitting && !Object.keys(errors).length) {
+    if (token) {
       navigate('/')
     }
-  }, [isSubmitting, loading])
+  }, [token, navigate])
 
-  return token ? (
-    <Navigate to="/" />
-  ) : (
+  return (
     <div className={classes['form-wrap']}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes['form-sign-up']}>
         <h2 className={classes['form-sign-up-title']}>Create new account</h2>
@@ -78,9 +84,6 @@ export default function SignUp() {
           {errors.username && (
             <span className={classes['form-sign-up-error']}>{errors.username.message}</span>
           )}
-          {error?.username && (
-            <span className={classes['form-sign-up-error']}>Username уже существует</span>
-          )}
 
           <label className={classes['form-sign-up-label']}>
             Email address
@@ -102,9 +105,6 @@ export default function SignUp() {
           </label>
           {errors.email && (
             <span className={classes['form-sign-up-error']}>{errors.email.message}</span>
-          )}
-          {error?.email && (
-            <span className={classes['form-sign-up-error']}>Email уже существует</span>
           )}
 
           <label className={classes['form-sign-up-label']}>
@@ -154,23 +154,31 @@ export default function SignUp() {
             <span className={classes['form-sign-up-error']}>{errors.repeatPassword.message}</span>
           )}
 
-          <label className={classes['form-sign-up-label-checkbox']}>
+          <label className={classes['form-sign-up-checkbox']}>
             <input
               {...register('agreement', {
                 required: 'Подтвердите согласие',
               })}
               type="checkbox"
+              className={classes['form-sign-up-checkbox-input']} 
             />
-            I agree to the processing of my personal information
+            <span className={classes['form-sign-up-checkbox-text']}>
+              I agree to the processing of my personal information
+            </span>
           </label>
           {errors.agreement && (
             <span className={classes['form-sign-up-error']}>{errors.agreement.message}</span>
           )}
         </fieldset>
-        <button className={classes['form-sign-up-button']} type="submit" disabled={!isValid}>
+        {submitError && (
+          <div className={classes['form-sign-up-submit-error']}>
+            {submitError}
+          </div>
+        )}
+        <button className={classes['form-sign-up-button']} type="submit" disabled={!isValid || isSubmitting}>
           Create
         </button>
-        <span className={classes['form-sign-up-footer']}>
+        <span className={classes['form-sign-up-span']}>
           Already have an account? <Link to="/sign-in">Sign In</Link>.
         </span>
       </form>

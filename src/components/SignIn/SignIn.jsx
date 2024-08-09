@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Navigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import classNames from 'classnames'
@@ -11,21 +11,15 @@ import classes from './SignIn.module.scss'
 export default function SignIn() {
   const dispatch = useAppDispatch()
   const token = localStorage.getItem('token')
-  const { loading, error } = useAppSelector((state) => state.fetchReducer) || {}
+  const { loading } = useAppSelector((state) => state.fetchReducer) || {}
   const navigate = useNavigate()
   const [passwordError, setPasswordError] = useState(null)
 
   const {
     register,
-    formState: { errors, submitCount, isSubmitting },
+    formState: { errors },
     handleSubmit,
   } = useForm()
-
-  useEffect(() => {
-    if (submitCount && !error && !loading && !isSubmitting && !Object.keys(errors).length) {
-      navigate('/')
-    }
-  }, [isSubmitting, loading])
 
   const onSubmit = async (data) => {
     try {
@@ -39,21 +33,13 @@ export default function SignIn() {
       )
 
       if (fetchUserLogin.rejected.match(resultAction)) {
-        if (resultAction.payload === 'Error, email or password is invalid') {
-          setPasswordError('Неверный email или пароль')
-        } else {
-          setPasswordError('Не удалось войти. Пожалуйста, попробуйте снова')
-        }
+        setPasswordError('Неверный email или пароль')
+      } else {
+        navigate('/')
       }
     } catch (err) {
-      setPasswordError(`Ошибка при отправке данных: ${err}`)
+      setPasswordError('Неверный email или пароль')
     }
-  }
-
-  function inputClasses(input) {
-    return classNames(classes['form-sign-in-input'], {
-      [classes['form-sign-in-input--warning']]: errors[input],
-    })
   }
 
   if (token) {
@@ -76,7 +62,9 @@ export default function SignIn() {
                 },
               })}
               placeholder="Email address"
-              className={inputClasses('email')}
+              className={classNames(classes['form-sign-in-input'], {
+                [classes['form-sign-in-input--warning']]: errors.email,
+              })}
               type="email"
             />
           </label>
@@ -105,7 +93,9 @@ export default function SignIn() {
                 onChange: () => dispatch(clearError('password')),
               })}
               placeholder="Password"
-              className={inputClasses('password')}
+              className={classNames(classes['form-sign-in-input'], {
+                [classes['form-sign-in-input--warning']]: errors.password,
+              })}
               type="password"
             />
           </label>
@@ -119,6 +109,7 @@ export default function SignIn() {
           onClick={() => dispatch(clearError('all'))}
           className={classes['form-sign-in-button']}
           type="submit"
+          disabled={loading}
         >
           Login
         </button>
